@@ -4,12 +4,12 @@
   "version": "${version}",
   "name": "Bee Yourself",
   "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": ["Me!"],
+  "authors": ["IAMSolaara"],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/IAMSolaara/bee-yourself/",
+    "sources": "https://github.com/IAMSolaara/bee-yourself/"
   },
-  "license": "CC0-1.0",
+  "license": "BSD-3-Clause",
   "icon": "assets/bee-yourself/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -28,4 +28,3 @@
     "another-mod": "*"
   }
 }
-
