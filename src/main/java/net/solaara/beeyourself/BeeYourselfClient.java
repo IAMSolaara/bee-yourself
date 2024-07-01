@@ -1,10 +1,12 @@
 package net.solaara.beeyourself;
 
+import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+import net.solaara.beeyourself.transbee.TransBeeEntityModel;
 import net.solaara.beeyourself.transbee.TransBeeEntityRenderer;
 
 @Environment(EnvType.CLIENT)
@@ -18,6 +20,8 @@ public class BeeYourselfClient implements ClientModInitializer {
 				(context) -> {
 					return new TransBeeEntityRenderer(context);
 				});
+
+		EntityModelLayerRegistry.register(MODEL_TRANSBEE_LAYER, TransBeeEntityModel::getTexturedModelData);
 	}
 
 }

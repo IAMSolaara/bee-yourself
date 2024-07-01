@@ -38,7 +38,7 @@ public class BeeYourself implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		FabricDefaultAttributeRegistry.register(TRANS_BEE, TransBeeEntity.createBeeAttributes());
+		FabricDefaultAttributeRegistry.register(TRANS_BEE, TransBeeEntity.create_transbee_attributes());
 
 		Registry.register(Registry.ITEM, new Identifier("bee-yourself", "trans_bee_spawn_egg"), TRANS_BEE_SPAWN_EGG);
 
