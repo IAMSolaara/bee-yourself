@@ -76,9 +76,10 @@ public class TransBeeEntity extends BeeEntity {
 				double d = this.random.nextGaussian() * 0.2;
 				double e = this.random.nextGaussian() * 0.2;
 				double f = this.random.nextGaussian() * 0.2;
-				ModUtils.spawnForcedParticles((ServerWorld) world, ParticleTypes.HEART, this.getParticleX(1.0),
+				ModUtils.spawnForcedParticles((ServerWorld) world, BeeYourself.TRANS_FLAG_HEART_PARTICLE,
+						this.getParticleX(1.0),
 						this.getRandomBodyY() + 0.5,
-						this.getParticleZ(1.0), 7, d, e,
+						this.getParticleZ(1.0), 17, d, e,
 						f, 1);
 
 				this.setTarget(player);

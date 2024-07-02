@@ -4,10 +4,15 @@ import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.minecraft.client.particle.EmotionParticle.HeartFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.solaara.beeyourself.transbee.TransBeeEntityModel;
 import net.solaara.beeyourself.transbee.TransBeeEntityRenderer;
+import net.solaara.beeyourself.transflagheart.TransFlagHeartParticle;
 
 @Environment(EnvType.CLIENT)
 public class BeeYourselfClient implements ClientModInitializer {
@@ -20,6 +25,9 @@ public class BeeYourselfClient implements ClientModInitializer {
 				(context) -> {
 					return new TransBeeEntityRenderer(context);
 				});
+
+		ParticleFactoryRegistry.getInstance().register(BeeYourself.TRANS_FLAG_HEART_PARTICLE,
+				TransFlagHeartParticle.Factory::new);
 
 		EntityModelLayerRegistry.register(MODEL_TRANSBEE_LAYER, TransBeeEntityModel::getTexturedModelData);
 	}
