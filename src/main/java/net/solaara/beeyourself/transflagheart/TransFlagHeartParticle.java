@@ -32,9 +32,9 @@ public class TransFlagHeartParticle extends SpriteBillboardParticle {
 		this.velocityX *= 0.01F;
 		this.velocityY *= 0.01F;
 		this.velocityZ *= 0.01F;
-		this.velocityY += 0.1;
+		this.velocityY += 0.2;
 		this.scale *= 1.5F;
-		this.maxAge = 16;
+		this.maxAge = 32;
 		this.collidesWithWorld = false;
 		this.setSpriteForAge(spriteProvider); // Required
 		this.variant = world.random.nextInt(1, 4);

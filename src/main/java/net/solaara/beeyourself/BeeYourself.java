@@ -25,7 +25,9 @@ public class BeeYourself implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("bee-yourself");
 
-	public static final DefaultParticleType TRANS_FLAG_HEART_PARTICLE = FabricParticleTypes.simple();
+	public static final DefaultParticleType TRANS_FLAG_HEART_PARTICLE_1 = FabricParticleTypes.simple();
+	public static final DefaultParticleType TRANS_FLAG_HEART_PARTICLE_2 = FabricParticleTypes.simple();
+	public static final DefaultParticleType TRANS_FLAG_HEART_PARTICLE_3 = FabricParticleTypes.simple();
 
 	public static final EntityType<TransBeeEntity> TRANS_BEE = Registry.register(
 			Registry.ENTITY_TYPE,
@@ -45,8 +47,12 @@ public class BeeYourself implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(TRANS_BEE, TransBeeEntity.create_transbee_attributes());
 
 		Registry.register(Registry.ITEM, new Identifier("bee-yourself", "trans_bee_spawn_egg"), TRANS_BEE_SPAWN_EGG);
-		Registry.register(Registry.PARTICLE_TYPE, new Identifier("bee-yourself", "trans_flag_heart"),
-				TRANS_FLAG_HEART_PARTICLE);
+		Registry.register(Registry.PARTICLE_TYPE, new Identifier("bee-yourself", "trans_flag_heart_1"),
+				TRANS_FLAG_HEART_PARTICLE_1);
+		Registry.register(Registry.PARTICLE_TYPE, new Identifier("bee-yourself", "trans_flag_heart_2"),
+				TRANS_FLAG_HEART_PARTICLE_2);
+		Registry.register(Registry.PARTICLE_TYPE, new Identifier("bee-yourself", "trans_flag_heart_3"),
+				TRANS_FLAG_HEART_PARTICLE_3);
 
 		LOGGER.info("BeeYourself onInitialize()");
 	}

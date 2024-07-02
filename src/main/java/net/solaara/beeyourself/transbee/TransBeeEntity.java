@@ -19,6 +19,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.solaara.beeyourself.BeeYourself;
+import net.solaara.beeyourself.BeeYourselfDataGenerator;
 import net.solaara.beeyourself.ModUtils;
 
 public class TransBeeEntity extends BeeEntity {
@@ -73,16 +74,32 @@ public class TransBeeEntity extends BeeEntity {
 						1f // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
 				);
 
-				double d = this.random.nextGaussian() * 0.2;
-				double e = this.random.nextGaussian() * 0.2;
-				double f = this.random.nextGaussian() * 0.2;
-				ModUtils.spawnForcedParticles((ServerWorld) world, BeeYourself.TRANS_FLAG_HEART_PARTICLE,
-						this.getParticleX(1.0),
-						this.getRandomBodyY() + 0.5,
-						this.getParticleZ(1.0), 17, d, e,
-						f, 1);
+				for (var i = 0; i < 7; i += 1) {
+					double d = this.random.nextGaussian() * 0.3;
+					double e = this.random.nextGaussian() * 0.3;
+					double f = this.random.nextGaussian() * 0.3;
+
+					var p = BeeYourself.TRANS_FLAG_HEART_PARTICLE_1;
+					switch (this.world.random.nextInt(0, 3)) {
+						case 1:
+							p = BeeYourself.TRANS_FLAG_HEART_PARTICLE_2;
+							break;
+						case 2:
+							p = BeeYourself.TRANS_FLAG_HEART_PARTICLE_3;
+							break;
+					}
+
+					ModUtils.spawnForcedParticles((ServerWorld) world, p,
+							this.getParticleX(1.0),
+							this.getRandomBodyY() + 0.5,
+							this.getParticleZ(1.0), 3, d, e,
+							f, 1);
+				}
 
 				this.setTarget(player);
+				if (this.getAngryAt().equals(player.getUuid())) {
+					this.setAngryAt(null);
+				}
 				player.sendMessage(
 						new TranslatableText(
 								"entity.bee-yourself.trans_bee.interaction.praise_message."
@@ -152,130 +169,3 @@ public class TransBeeEntity extends BeeEntity {
 
 	}
 }
-
-/*
- * 
- * public interface Angerable {
- * String ANGER_TIME_KEY = "AngerTime";
- * String ANGRY_AT_KEY = "AngryAt";
- * 
- * int getAngerTime();
- * 
- * void setAngerTime(int angerTime);
- * 
- * @Nullable
- * UUID getAngryAt();
- * 
- * void setAngryAt(@Nullable UUID angryAt);
- * 
- * void chooseRandomAngerTime();
- * 
- * default void writeAngerToNbt(NbtCompound nbt) {
- * nbt.putInt("AngerTime", this.getAngerTime());
- * if (this.getAngryAt() != null) {
- * nbt.putUuid("AngryAt", this.getAngryAt());
- * }
- * 
- * }
- * 
- * default void readAngerFromNbt(World world, NbtCompound nbt) {
- * this.setAngerTime(nbt.getInt("AngerTime"));
- * if (world instanceof ServerWorld) {
- * if (!nbt.containsUuid("AngryAt")) {
- * this.setAngryAt((UUID)null);
- * } else {
- * UUID uUID = nbt.getUuid("AngryAt");
- * this.setAngryAt(uUID);
- * Entity entity = ((ServerWorld)world).getEntity(uUID);
- * if (entity != null) {
- * if (entity instanceof MobEntity) {
- * this.setAttacker((MobEntity)entity);
- * }
- * 
- * if (entity.getType() == EntityType.PLAYER) {
- * this.setAttacking((PlayerEntity)entity);
- * }
- * 
- * }
- * }
- * }
- * }
- * 
- * default void tickAngerLogic(ServerWorld world, boolean angerPersistent) {
- * LivingEntity livingEntity = this.getTarget();
- * UUID uUID = this.getAngryAt();
- * if ((livingEntity == null || livingEntity.isDead()) && uUID != null &&
- * world.getEntity(uUID) instanceof MobEntity) {
- * this.stopAnger();
- * } else {
- * if (livingEntity != null && !Objects.equals(uUID, livingEntity.getUuid())) {
- * this.setAngryAt(livingEntity.getUuid());
- * this.chooseRandomAngerTime();
- * }
- * 
- * if (this.getAngerTime() > 0 && (livingEntity == null ||
- * livingEntity.getType() != EntityType.PLAYER || !angerPersistent)) {
- * this.setAngerTime(this.getAngerTime() - 1);
- * if (this.getAngerTime() == 0) {
- * this.stopAnger();
- * }
- * }
- * 
- * }
- * }
- * 
- * default boolean shouldAngerAt(LivingEntity entity) {
- * if (!this.canTarget(entity)) {
- * return false;
- * } else {
- * return entity.getType() == EntityType.PLAYER &&
- * this.isUniversallyAngry(entity.world) ? true :
- * entity.getUuid().equals(this.getAngryAt());
- * }
- * }
- * 
- * default boolean isUniversallyAngry(World world) {
- * return world.getGameRules().getBoolean(GameRules.UNIVERSAL_ANGER) &&
- * this.hasAngerTime() && this.getAngryAt() == null;
- * }
- * 
- * default boolean hasAngerTime() {
- * return this.getAngerTime() > 0;
- * }
- * 
- * default void forgive(PlayerEntity player) {
- * if (player.world.getGameRules().getBoolean(GameRules.FORGIVE_DEAD_PLAYERS)) {
- * if (player.getUuid().equals(this.getAngryAt())) {
- * this.stopAnger();
- * }
- * }
- * }
- * 
- * default void universallyAnger() {
- * this.stopAnger();
- * this.chooseRandomAngerTime();
- * }
- * 
- * default void stopAnger() {
- * this.setAttacker((LivingEntity)null);
- * this.setAngryAt((UUID)null);
- * this.setTarget((LivingEntity)null);
- * this.setAngerTime(0);
- * }
- * 
- * @Nullable
- * LivingEntity getAttacker();
- * 
- * void setAttacker(@Nullable LivingEntity attacker);
- * 
- * void setAttacking(@Nullable PlayerEntity attacking);
- * 
- * void setTarget(@Nullable LivingEntity target);
- * 
- * boolean canTarget(LivingEntity target);
- * 
- * @Nullable
- * LivingEntity getTarget();
- * }
- * 
- */
